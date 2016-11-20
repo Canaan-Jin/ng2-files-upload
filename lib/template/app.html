@@ -3,19 +3,14 @@
     {{item.file.name}}
     <input type="button" value="上传" (click)="item.upLoaderFile()">
     <input type="button" value="停止" (click)="item.abort()">
-    <input type="button" value="停止" (click)="item.remove()">
+    <input type="button" value="删除" (click)="item.remove()">
     <br>
     <div [id]="item.id" style="width:0px;height:10px;background-color: #3676ff;"></div>
 </div>
 <br>
 <input type="button" value="上传" (click)="uploader.fileUploaderAll()">
 <input type="button" value="停止" (click)="uploader.abortAll()">
-<input type="button" value="停止" (click)="uploader.removeAll()">
+<input type="button" value="删除" (click)="uploader.removeAll()">
 <div style="width:1000px;border:inset 2px black;">
     <div id="all" style="width:0px;height:10px;background-color: #3676ff;"></div>
 </div>
-<!--<div style="width:1000px;border:1px black;height:10px;background-color: beige;" >
-    <div id="aa"  style="height:100%;background-color:#0064ff;">
-
-    </div>
-</div>-->
