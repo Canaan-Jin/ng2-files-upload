@@ -13,6 +13,10 @@ export class FileItem {
     public file: File;
     //上传进度
     public progress: number = 0;
+    //上次上传的时候的时间
+    private lastLoadeDate: Date = null;
+    //上次上传的时候的大小
+    private lastLoadeSize: number = null;
     /**
      * 上传当前项
      */
@@ -32,14 +36,42 @@ export class FileItem {
 
             formData.append(this.uploader.fileUpLoaderOption.alias, this.file);
         }
-        this._xhr.upload.onprogress = (event: any) => {
+        this._xhr.upload.onprogress = (event: ProgressEvent) => {
+            //初始化值
+            if (this.lastLoadeDate === null)
+                this.lastLoadeDate = new Date();
+            if (this.lastLoadeSize === null)
+                this.lastLoadeSize = 0;
+            //计算出上次调用该方法时到现在的时间差，单位为s
+            let pertime: number = (new Date().getTime() - this.lastLoadeDate.getTime()) / 1000;
+            //记录
+            this.lastLoadeDate = new Date();
+
+            let perLoad = event.loaded - this.lastLoadeSize;
+            //记录
+            this.lastLoadeSize = event.loaded;
+            //计算速度B单位
+            let speed: number = perLoad / pertime;
+            //这次上传大小
+            let company: string = "B";
+            //判断是否是 kb大小
+            if (speed / 1024 > 1) {
+                speed = speed / 1024;
+                company = 'KB';
+            }
+            //判断是否是mb单位大小
+            if (speed / 1024 > 1) {
+                speed = speed / 1024;
+                company = 'MB';
+            }
+
             this.progress = Math.round(event.lengthComputable ? event.loaded * 100 / event.total : 0);
             if (this.uploader.fileUpLoaderOption.onProgress != undefined) {
                 let allProgress: number = 0;
                 this.uploader.files.map((file: FileItem) => {
                     allProgress += file.progress;
                 });
-                this.uploader.fileUpLoaderOption.onProgress(this, this.progress, allProgress * (100 / this.uploader.files.length) / 100);
+                this.uploader.fileUpLoaderOption.onProgress(this, this.progress, allProgress * (100 / this.uploader.files.length) / 100, speed.toFixed(1) + company + "/s");
             }
         }
 
@@ -67,6 +99,6 @@ export class FileItem {
     }
 
     public remove(): void {
-        this.uploader.files.splice(this.uploader.files.indexOf(this),1);
+        this.uploader.files.splice(this.uploader.files.indexOf(this), 1);
     }
 }

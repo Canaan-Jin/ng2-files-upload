@@ -12,7 +12,8 @@ export class AppComponent {
     url: "https://evening-anchorage-3159.herokuapp.com/api/",
     method: "POST",
     autoUpload: false,
-    onProgress: (FileItem: FileItem, thisFileProgress: number, allProgress: number) => {
+    onProgress: (FileItem: FileItem, thisFileProgress: number, allProgress: number,speed:string) => {
+      document.getElementById('speed').innerHTML=speed;
       document.getElementById(FileItem.id).style.width = thisFileProgress + "%";
       console.log(FileItem.file.name + ">" + thisFileProgress);
       document.getElementById('all').style.width = allProgress + "%";

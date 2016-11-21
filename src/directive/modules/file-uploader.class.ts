@@ -15,7 +15,7 @@ export interface FileUpLoaderOption {
     alias?: string;
     setHeader?: (FileItem: FileItem) => Array<Header>;
     autoUpload: boolean;
-    onProgress?: (FileItem: FileItem, thisFileProgress: number, allProgress: number) => void;
+    onProgress?: (FileItem: FileItem, thisFileProgress: number, allProgress: number,speed:string) => void;
     onError?: (event: ErrorEvent, fileItem: FileItem) => void;
     onLoad?: (fileItem: FileItem) => void;
     onAbort?: (fileItem: FileItem) => void;
