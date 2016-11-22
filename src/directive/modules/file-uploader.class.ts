@@ -15,7 +15,8 @@ export interface FileUpLoaderOption {
     alias?: string;
     setHeader?: (FileItem: FileItem) => Array<Header>;
     autoUpload: boolean;
-    onProgress?: (FileItem: FileItem, thisFileProgress: number, allProgress: number,speed:string) => void;
+    onProgress?: (FileItem: FileItem, thisFileProgress: number, speed: string) => void;
+    onAllProgress?: (progress: number, speed: string) => void;
     onError?: (event: ErrorEvent, fileItem: FileItem) => void;
     onLoad?: (fileItem: FileItem) => void;
     onAbort?: (fileItem: FileItem) => void;
@@ -30,13 +31,13 @@ export class FileUpLoader {
         this.fileUpLoaderOption.user = this.fileUpLoaderOption.user === undefined ? "" : this.fileUpLoaderOption.user;
         this.fileUpLoaderOption.password = this.fileUpLoaderOption.password === undefined ? "" : this.fileUpLoaderOption.password;
         this.fileUpLoaderOption.async = this.fileUpLoaderOption.async === undefined ? true : this.fileUpLoaderOption.async;
-
-
     }
     //配置集合
     public fileUpLoaderOption: FileUpLoaderOption;
     //文件集合
     public files: Array<FileItem>;
+
+    public lastLoadeDate: Date = null;
     /**
      * 添加新项
      * @param {file} 要添加的新文件

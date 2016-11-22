@@ -4,6 +4,8 @@
     <input type="button" value="上传" (click)="item.upLoaderFile()">
     <input type="button" value="取消" (click)="item.abort()">
     <input type="button" value="删除" (click)="item.remove()">
+    <div [id]="item.id+'1'"></div>
+
     <br>
     <div [id]="item.id" style="width:0px;height:10px;background-color: #3676ff;"></div>
 </div>

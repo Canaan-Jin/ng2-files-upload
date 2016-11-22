@@ -12,12 +12,13 @@ export class AppComponent {
     url: "https://evening-anchorage-3159.herokuapp.com/api/",
     method: "POST",
     autoUpload: false,
-    onProgress: (FileItem: FileItem, thisFileProgress: number, allProgress: number,speed:string) => {
-      document.getElementById('speed').innerHTML=speed;
+    onProgress: (FileItem: FileItem, thisFileProgress: number, speed: string) => {
+      document.getElementById(FileItem.id + '1').innerHTML = speed;
       document.getElementById(FileItem.id).style.width = thisFileProgress + "%";
-      console.log(FileItem.file.name + ">" + thisFileProgress);
-      document.getElementById('all').style.width = allProgress + "%";
-
+    },
+    onAllProgress: (progress: number, speed: string) => {
+      document.getElementById('speed').innerHTML = speed;
+      document.getElementById('all').style.width = progress + "%";
     },
     data: (FileItem: FileItem) => {
       let formData = new FormData();
